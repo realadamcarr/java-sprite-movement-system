@@ -13,6 +13,16 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenWidth =  maxScreenCol * tilesize; // 768 pixels
     final int screenHeight = maxScreenRow * tilesize; // 576 pixels
 
+
+    // FPS
+    int FPS = 60;
+
+
+    //set player's default position
+    int playerX = 100;
+    int playerY = 100;
+    int playerSpeed = 4;
+
     KeyHandler keyH = new KeyHandler();
     public GamePanel() {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -34,19 +44,51 @@ public class GamePanel extends JPanel implements Runnable{
     @Override
     public void run() {
 
+        double drawInterval = 1000000000/FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
 
         while(gameThread != null ) {
+
+
 
         //    System.out.println("The Game Loop Is Running");
         // 1 UPDATE: update information such as character positions
             update();
         // 2 UPDATE: draw the screen with the updated information
             repaint();
+
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+
+                if(remainingTime < 0) {
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void update(){
-
+        if(keyH.upPressed == true) {
+            playerY -= playerSpeed;
+        }
+        else if(keyH.downPressed == true) {
+            playerY += playerSpeed;
+        }
+        else if(keyH.leftPressed == true) {
+            playerX -= playerSpeed;
+        }
+        else if(keyH.rightPressed == true) {
+            playerX += playerSpeed;
+        }
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -55,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.setColor(Color.WHITE);
 
-        g2.fillRect(100, 100, tilesize, tilesize);
+        g2.fillRect(playerX, playerY, tilesize, tilesize);
 
         g2.dispose();
     }
