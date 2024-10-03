@@ -12,9 +12,7 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         int code = e.getKeyCode();
-
         if (code == KeyEvent.VK_W) {
             upPressed = true;
         }
@@ -28,6 +26,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+
     }
 
     @Override

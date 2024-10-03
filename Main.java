@@ -8,10 +8,8 @@ public class Main {
       window.setResizable(false);
       window.setTitle("Nerd quest");
 
-      Thread gameThread;
-
-      GamePanel var2 = new GamePanel();
-      window.add(var2);
+      GamePanel gamePanel = new GamePanel();
+      window.add(gamePanel);
       window.pack();
       window.setLocationRelativeTo((Component)null);
       window.setVisible(true);
