@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,12 +24,13 @@ public class GamePanel extends JPanel implements KeyListener {
     // FPS
     int FPS = 60;
 
-
+    private GamePanel GamePanel;
+    transient Player player = new Player(this.GamePanel, keyH);
 
     public GamePanel() {
         this.addKeyListener(this);
         setPreferredSize(new Dimension(screenWidth, screenHeight));
-        setBackground(Color.BLACK);
+        setBackground(Color.GREEN);
         setDoubleBuffered(true);
         addKeyListener(keyH);
         setFocusable(true);
@@ -38,35 +40,41 @@ public class GamePanel extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.fillRect(x, y, 50, 50); // Draw a rectangle at (x, y)
-        g.setColor(Color.ORANGE);
+        Graphics2D g2 = null;
+        player.draw(g2);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_LEFT) {
-            x -= 10;
+            x -= 15;
         } else if (key == KeyEvent.VK_RIGHT) {
-            x += 10;
+            x += 15;
         } else if (key == KeyEvent.VK_UP) {
-            y -= 10;
+            y -= 15;
         } else if (key == KeyEvent.VK_DOWN) {
-            y += 10;
+            y += 15;
         }
         repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // Not used
+
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Not used
-    }
 
     public static void startGameThread() {
         // Implement game loop if needed
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
